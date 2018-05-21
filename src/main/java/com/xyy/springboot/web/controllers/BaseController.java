@@ -119,4 +119,18 @@ public class BaseController {
         }
         return "success";
     }
+
+    @PostMapping("/baseHttpServlet")
+    @ResponseBody
+    public String baseHttpServlet(){
+        log.info("baseHttpServlet...");
+        return "success";
+    }
+
+    @PostMapping("/baseFilter")
+    @ResponseBody
+    public String baseFilter(){
+        log.info("baseFilter...");
+        return "success";
+    }
 }
