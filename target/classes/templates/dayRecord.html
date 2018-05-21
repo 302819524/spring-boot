@@ -1,0 +1,71 @@
+<@override name="styles">
+<link rel="stylesheet" href="../css/bootstrap/bootstrap-datetimepicker-standalone.css">
+<link rel="stylesheet" href="../css/bootstrap/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="../css/dayRecord.css">
+</@override> <@override name="title">每日记录 </@override> <@override name="header">
+<div class="header">
+	<!-- 		<h1 class="page-header">每日记录</h1> -->
+	<!-- 			<ol class="breadcrumb"> -->
+	<!-- 				<li><a href="#">Home</a></li> -->
+	<!-- 				<li><a href="#">Dashboard</a></li> -->
+	<!-- 				<li class="active">Data</li> -->
+	<!-- 			</ol> -->
+
+</div>
+</@override> <@override name="content">
+<div class="row">
+	<div class="col-xs-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="card-title">
+					<div class="title">记录：</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<form class="form-horizontal" action="/dayRecord/save" method="POST">
+					<div class="form-group">
+						<label for="plan" class="col-sm-4 control-label">计划：</label>
+						<div class="col-sm-6" id='plan'>
+							<select class="selectpicker form-control" name='planTotalId'>
+								<option value ="1">Mustard</option>
+								<option value ="2">Ketchup</option>
+								<option value ="3">Relish</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="datetimepicker" class="col-sm-4 control-label">记录日期：</label>
+						<!--指定 date标记-->
+						<div class='input-group date col-sm-6' id='datetimepicker'>
+							<input type='text' class="form-control" name="date" /> <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span>
+							</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputTimes" class="col-sm-4 control-label">花费时长：</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="inputTimes" name='useTime' placeholder="1">
+						</div>
+						<span class="control-label">小时</span>
+					</div>
+					<div class="form-group">
+						<label for="summary" class="col-sm-4 control-label">总结：</label>
+						<div class="col-sm-6">
+							<textarea  class="form-control" id="summary" name='summary' placeholder=""></textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-5 col-sm-12">
+							<button type="submit" class="btn btn-primary">提交</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+</@override> <@override name="scripts">
+<script type="text/javascript" src="../js/dayRecord.js"></script>
+<script type="text/javascript" src="../js/bootstrap/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="../js/bootstrap/bootstrap-datetimepicker.min.js"></script>
+</@override> <@extends name="/base.html"/>
