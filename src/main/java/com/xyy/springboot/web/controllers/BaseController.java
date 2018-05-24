@@ -2,19 +2,28 @@ package com.xyy.springboot.web.controllers;
 
 import com.xyy.springboot.domain.BaseUser;
 import com.xyy.springboot.listener.BaseApplicationEventPublisher;
+import com.xyy.springboot.model.BaseUserModel;
 import com.xyy.springboot.properties.BaseConfigurationProperties;
 import com.xyy.springboot.properties.BaseImportResource;
 import com.xyy.springboot.properties.BaseValue;
 import com.xyy.springboot.services.BaseService;
+import javafx.scene.input.DataFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 
 @Controller
+//将该类中的model中的author属性和类型为double的键值对放到session域中
+//注入SessionStatus,调用setComplete();方法，会删除session中经过该类保存到session的键值对
+@SessionAttributes(names = {"author"}, types = {Double.class})
 public class BaseController {
     private static Logger log = LoggerFactory.getLogger(BaseController.class);
     @Autowired
@@ -132,5 +141,33 @@ public class BaseController {
     public String baseFilter(){
         log.info("baseFilter...");
         return "success";
+    }
+
+    /**
+     * @InitBinder实现精准的对象接受，也可以进行校验，在handler接受参数之前会执行
+     * 和 @ModelAttribute 可以一起写到@ControllerAdvice标注的类中，这样所有的controller都会应用
+     * 或者写一个父类让需要的controller继承
+     * @param binder
+     */
+    @InitBinder
+    public void initBinder(WebDataBinder binder){
+        //由表单到JavaBean赋值过程中哪一个值不进行赋值
+        binder.setDisallowedFields("dou");
+    }
+
+    /**
+     * @ModelAttribute 用在方法上，会在handler（如@PostMapping("/initBinder")方法）之前执行，将参数设置到model中
+     * @return
+     */
+    @ModelAttribute("test")
+    public String setAuthor() {
+        return "test";
+    }
+
+    @RequestMapping("/initBinder")
+//    @ResponseBody
+    public String initBinder(BaseUserModel baseUserModel){
+        log.info(baseUserModel.toString());
+        return "index";
     }
 }

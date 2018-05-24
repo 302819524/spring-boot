@@ -6,6 +6,10 @@
 <div class="navbar">
 	<input id="name" type="text" placeholder="请输入名字"/>
 	<input id="age" type="text" placeholder="请输入年龄"/>
+	<!--获取session域中的值-->
+	<input id="session" type="text" value="${Session.author}"/>
+	<!--获取request域中的值-->
+	<input id="request" type="text" value="${Request.author}"/>
 	<input id="btnSubmit" type="button" class="btn btn-sm btn-primary" value="提交"/>
 </div>
 </@override>
