@@ -168,8 +168,9 @@ public class BaseController {
 
     @RequestMapping("/initBinder")
 //    @ResponseBody
-    public String initBinder(@Valid BaseUserModel baseUserModel, BindingResult result, @Valid Integer aaa, BindingResult result2){
-        log.info(baseUserModel.toString());
+    //貌似基础数据类型后面不能跟 BindingResult result,好像不加也会默认添加进去
+    public String initBinder( BaseUserModel baseUserModel, Integer aaa){
+//        log.info(baseUserModel.toString());
         return "index";
     }
 }
