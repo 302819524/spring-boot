@@ -14,14 +14,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 
-
 @Controller
-//将该类中的model中的author属性和类型为double的键值对放到session域中
+//将该类中的model中的author属性和类型为double的键值对放到session域中（默认使用的是session，不过也可以重写SessionAttributeStore在设置到RequestMappingHandlerAdapter）
+//RedirectAttributes 中的键值对不会被缓存
 //注入SessionStatus,调用setComplete();方法，会删除session中经过该类保存到session的键值对
 @SessionAttributes(names = {"author"}, types = {Double.class})
 public class BaseController {
@@ -166,8 +168,9 @@ public class BaseController {
 
     @RequestMapping("/initBinder")
 //    @ResponseBody
-    public String initBinder(BaseUserModel baseUserModel){
+    public String initBinder(@Valid BaseUserModel baseUserModel, BindingResult result, @Valid Integer aaa, BindingResult result2){
         log.info(baseUserModel.toString());
         return "index";
     }
 }
+
