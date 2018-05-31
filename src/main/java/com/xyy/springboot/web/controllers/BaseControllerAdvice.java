@@ -1,9 +1,9 @@
 package com.xyy.springboot.web.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author xuyy
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
  */
 @ControllerAdvice
 public class BaseControllerAdvice {
-
+    private static final Logger log = LoggerFactory.getLogger(BaseController.class);
     /**
      * 全局应用
      * @param binder
@@ -31,4 +31,10 @@ public class BaseControllerAdvice {
         return "xyy";
     }
 
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
+    public String baseException(Exception e){
+        log.error("baseException", e);
+        return "fail";
+    }
 }

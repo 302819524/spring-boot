@@ -1,3 +1,4 @@
+<#import "spring.ftl" as spring />
 <@override name="title">首页
 </@override>
 <@override name="header">
@@ -5,7 +6,11 @@
 <@override name="content">
 <div class="navbar">
 	<input id="name" type="text" placeholder="请输入名字"/>
-	<input id="age" type="text" placeholder="请输入年龄"/>
+	<input id="age" type="text" placeholder="请输入年龄" value="${baseUserModel.age}"/>
+	<#if baseUserModel??>
+		<@spring.bind "baseUserModel.age" />
+		<@spring.showErrors separator="<br/>"  classOrStyle="red"/>
+	</#if>
 	<!--获取session域中的值-->
 	<input id="session" type="text" value="${Session.author}"/>
 	<!--获取request域中的值-->

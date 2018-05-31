@@ -14,12 +14,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 //将该类中的model中的author属性和类型为double的键值对放到session域中（默认使用的是session，不过也可以重写SessionAttributeStore在设置到RequestMappingHandlerAdapter）
@@ -168,10 +172,25 @@ public class BaseController {
 
     @RequestMapping("/initBinder")
 //    @ResponseBody
-    //貌似基础数据类型后面不能跟 BindingResult result,好像不加也会默认添加进去
-    public String initBinder( BaseUserModel baseUserModel, Integer aaa){
-//        log.info(baseUserModel.toString());
+    //貌似基础数据类型后面不能跟 BindingResult result,会默认添加一个空的BindingResult里面0error
+    //在调用这个方法前会先使用 ReflectionUtils.makeAccessible 强制将方法变为可调用的，即使是使用private 也是可以被调用
+    //@Valid BaseUserModel baseUserModel2后如果不跟BindingResult，会把校验的的异常返回，如果加了，会把校验的异常保存到BindingResult中，并接下去执行代码
+    private String initBinder(ArrayList<BaseUserModel> list , Integer[] arrays, @Valid BaseUserModel baseUserModel, BindingResult resultModel, Integer aaa, BindingResult result){
+        log.info(baseUserModel.toString());
         return "index";
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
+    public String baseException(Exception e){
+        log.error("baseException", e);
+        return "fail2";
+    }
+
+    @RequestMapping("/exception")
+    @ResponseBody
+    private String exception(){
+        throw new RuntimeException();
     }
 }
 
