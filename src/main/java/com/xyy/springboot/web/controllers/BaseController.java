@@ -13,11 +13,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -180,17 +182,40 @@ public class BaseController {
         return "index";
     }
 
-    @ExceptionHandler(Exception.class)
+//    @ExceptionHandler(RuntimeException.class)
+//    @ResponseBody
+//    public String exception(Exception e){
+//        log.error("RuntimeException", e);
+//        return "RuntimeException fail";
+//    }
+//
+    @ExceptionHandler(ResponseStatusException.class)
     @ResponseBody
-    public String baseException(Exception e){
-        log.error("baseException", e);
-        return "fail2";
+    public String responseStatusException(ResponseStatusException e){
+        log.error("ResponseStatusException", e);
+        return "ResponseStatusException fail";
     }
 
-    @RequestMapping("/exception")
+    @RequestMapping("/runtimeException")
     @ResponseBody
     private String exception(){
-        throw new RuntimeException();
+//        throw new RuntimeException();
+        throw new RuntimeException("RuntimeException");
+    }
+
+    @RequestMapping("/responseStatusException")
+    @ResponseBody
+    private String responseStatusException() throws Exception {
+//        throw new RuntimeException();
+        try {
+            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY,"responseStatusException");
+        } catch (ResponseStatusException e){
+            try {
+                throw new RuntimeException(e);
+            } catch (RuntimeException e1){
+                throw new Exception(e1);
+            }
+        }
     }
 }
 
