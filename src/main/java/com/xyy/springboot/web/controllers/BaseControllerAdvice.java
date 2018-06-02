@@ -1,5 +1,6 @@
 package com.xyy.springboot.web.controllers;
 
+import com.xyy.springboot.configuration.BaseTypeLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.WebDataBinder;
@@ -10,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
  * @date 2018/5/24 15:22
  */
 @ControllerAdvice
-public class BaseControllerAdvice {
+@BaseTypeLog
+public class BaseControllerAdvice{
     private static final Logger log = LoggerFactory.getLogger(BaseController.class);
     /**
      * 全局应用
@@ -37,4 +39,5 @@ public class BaseControllerAdvice {
         log.error("baseException", e);
         return "fail";
     }
+
 }

@@ -31,7 +31,8 @@ import java.util.List;
 //将该类中的model中的author属性和类型为double的键值对放到session域中（默认使用的是session，不过也可以重写SessionAttributeStore在设置到RequestMappingHandlerAdapter）
 //RedirectAttributes 中的键值对不会被缓存
 //注入SessionStatus,调用setComplete();方法，会删除session中经过该类保存到session的键值对
-@SessionAttributes(names = {"author"}, types = {Double.class})
+//看博客的SpringBoot异常记录
+//@SessionAttributes(names = {"author"}, types = {Double.class})
 public class BaseController {
     private static Logger log = LoggerFactory.getLogger(BaseController.class);
     @Autowired
@@ -216,6 +217,15 @@ public class BaseController {
                 throw new Exception(e1);
             }
         }
+//        log.info("responseStatusException...");
+//        return "success";
+    }
+
+    @RequestMapping("/requestBodyAdvice")
+    @ResponseBody
+    private String requestBodyAdvice(BaseUserModel baseUserModel, String nullValue) {
+        log.info("requestBodyAdvice...");
+        return "success";
     }
 }
 
