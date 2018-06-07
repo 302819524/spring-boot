@@ -17,12 +17,21 @@ import java.time.LocalDate;
 public class BaseUserModel extends AbstractPersistable<Long> {
     private String name;
 //    @org.hibernate.validator.constraints.NotEmpty
-    @Range(max = 20, min = 5)
+//    @Range(max = 20, min = 5)
     private Integer age;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDay;
     private Double dou;
     private Double noUse;
+    private String initBinder;
+
+    public String getInitBinder() {
+        return initBinder;
+    }
+
+    public void setInitBinder(String initBinder) {
+        this.initBinder = initBinder;
+    }
 
     public Double getNoUse() {
         return noUse;

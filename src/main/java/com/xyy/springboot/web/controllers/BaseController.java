@@ -1,5 +1,6 @@
 package com.xyy.springboot.web.controllers;
 
+import com.xyy.springboot.configuration.BaseCustomStringEditor;
 import com.xyy.springboot.domain.BaseUser;
 import com.xyy.springboot.listener.BaseApplicationEventPublisher;
 import com.xyy.springboot.model.BaseUserModel;
@@ -12,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -32,7 +34,7 @@ import java.util.List;
 //RedirectAttributes 中的键值对不会被缓存
 //注入SessionStatus,调用setComplete();方法，会删除session中经过该类保存到session的键值对
 //看博客的SpringBoot异常记录
-//@SessionAttributes(names = {"author"}, types = {Double.class})
+@SessionAttributes(names = {"author"}, types = {Double.class})
 public class BaseController {
     private static Logger log = LoggerFactory.getLogger(BaseController.class);
     @Autowired
@@ -173,12 +175,12 @@ public class BaseController {
         return "test";
     }
 
-    @RequestMapping("/initBinder")
+    @RequestMapping("/resultModel")
 //    @ResponseBody
     //貌似基础数据类型后面不能跟 BindingResult result,会默认添加一个空的BindingResult里面0error
     //在调用这个方法前会先使用 ReflectionUtils.makeAccessible 强制将方法变为可调用的，即使是使用private 也是可以被调用
     //@Valid BaseUserModel baseUserModel2后如果不跟BindingResult，会把校验的的异常返回，如果加了，会把校验的异常保存到BindingResult中，并接下去执行代码
-    private String initBinder(ArrayList<BaseUserModel> list , Integer[] arrays, @Valid BaseUserModel baseUserModel, BindingResult resultModel, Integer aaa, BindingResult result){
+    private String resultModel(ArrayList<BaseUserModel> list , Integer[] arrays, @Valid BaseUserModel baseUserModel, BindingResult resultModel, Integer aaa, BindingResult result){
         log.info(baseUserModel.toString());
         return "index";
     }
@@ -223,9 +225,41 @@ public class BaseController {
 
     @RequestMapping("/requestBodyAdvice")
     @ResponseBody
-    private String requestBodyAdvice(BaseUserModel baseUserModel, String nullValue) {
+    private String requestBodyAdvice(BaseUserModel baseUserModel, String nullValue, Integer aaa) {
         log.info("requestBodyAdvice...");
+        if (aaa != null && 45 == aaa){
+            try {
+                Thread.sleep(100000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         return "success";
+    }
+
+    /**
+     * 测试方法直接接受String类型数据
+     * 对应的属性名是baseUserModel的会执行下面方法，如果对象的名称是BaseUserModel 也会进入此方法。如下参数
+     * (ModelMap map, String baseUserModel, BaseUserModel baseUserModel2, Long aaa)
+     * 其中在解析String baseUserModel, BaseUserModel baseUserModel2这两个参数的时候，都会进入该方法
+     * 所以尽量避免，取属性名称的时候尽量避免不要和其他的名称重复
+     * @param binder
+     */
+    @InitBinder("baseUserModel")
+    public void initBinderString(WebDataBinder binder){
+        //由表单到JavaBean赋值过程中哪一个值不进行赋值
+        log.info("initBinderString...");
+        binder.registerCustomEditor(String.class, new BaseCustomStringEditor());
+//        解析的是对象中的属性名称是initBinder的
+//        binder.registerCustomEditor(String.class,"initBinder", new BaseCustomStringEditor());
+    }
+
+    @RequestMapping("/initBinder")
+//    @ResponseBody
+    private String initBinder(ModelMap map, String baseUserModel, BaseUserModel baseUserModel2, Long aaa) {
+        log.info("initBinder...");
+        map.put("initBinderStr", baseUserModel);
+        return "index";
     }
 }
 

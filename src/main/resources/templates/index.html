@@ -6,15 +6,16 @@
 <@override name="content">
 <div class="navbar">
 	<input id="name" type="text" placeholder="请输入名字"/>
-	<input id="age" type="text" placeholder="请输入年龄" value="${baseUserModel.age}"/>
+	<input id="initBinderStr" type="text" placeholder="请输入名字" value="${initBinderStr?default('')}"/>
+	<input id="age" type="text" placeholder="请输入年龄" value="${baseUserModel.age?default('')}"/>
 	<#if baseUserModel??>
 		<@spring.bind "baseUserModel.age" />
 		<@spring.showErrors separator="<br/>"  classOrStyle="red"/>
 	</#if>
 	<!--获取session域中的值-->
-	<input id="session" type="text" value="${Session.author}"/>
+	<input id="session" type="text" value="${Session.author?default('')}"/>
 	<!--获取request域中的值-->
-	<input id="request" type="text" value="${Request.author}"/>
+	<input id="request" type="text" value="${Request.author?default('')}"/>
 	<input id="btnSubmit" type="button" class="btn btn-sm btn-primary" value="提交"/>
 </div>
 </@override>
