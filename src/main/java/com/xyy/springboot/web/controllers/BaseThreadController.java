@@ -51,8 +51,10 @@ public class BaseThreadController {
             String result = stringFuture2.get();
             log.info("stringFuture2线程执行结果：" + result);
         } catch (InterruptedException e) {
+            // 线程被stringFuture2终止进入，使用stringFuture2.cancel(true)方法终止线程
             log.error(e.toString());
         } catch (ExecutionException e) {
+            // 线程出现异常进入
             log.error(e.toString());
         }
         return "success:callable";
