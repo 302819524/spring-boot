@@ -6,6 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
  * @author xyy
  * @Description:
@@ -20,5 +23,16 @@ public class BaseConfiguration {
     public BaseBean baseBean(){
         log.info("BaseBean注入容器。。。");
         return new BaseBean();
+    }
+
+    /**
+     * callable多线程接口使用的服务，类似于继承runnable接口的方法需要thread调用一样
+     * 用法见baseThreadController
+     * @return
+     */
+    @Bean
+    public ExecutorService executorService() {
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        return executorService;
     }
 }
