@@ -1,6 +1,7 @@
 package com.xyy.springboot.web.controllers;
 
 import com.xyy.springboot.configuration.BaseCustomStringEditor;
+import com.xyy.springboot.configuration.BaseMethodLog;
 import com.xyy.springboot.domain.BaseUser;
 import com.xyy.springboot.listener.BaseApplicationEventPublisher;
 import com.xyy.springboot.model.BaseUserModel;
@@ -34,7 +35,7 @@ import java.util.List;
 //RedirectAttributes 中的键值对不会被缓存
 //注入SessionStatus,调用setComplete();方法，会删除session中经过该类保存到session的键值对
 //看博客的SpringBoot异常记录
-@SessionAttributes(names = {"author"}, types = {Double.class})
+//@SessionAttributes(names = {"author"}, types = {Double.class})
 public class BaseController {
     private static Logger log = LoggerFactory.getLogger(BaseController.class);
     @Autowired
@@ -104,8 +105,10 @@ public class BaseController {
 
     @PostMapping("/aspect")
     @ResponseBody
+    @BaseMethodLog
     public String aspect(){
-        baseService.aspectLog();
+//        baseService.aspectLog();
+//        baseService.aspectLogArgs(new BaseUser(), 1);
         return "success";
     }
 
@@ -161,6 +164,7 @@ public class BaseController {
      * @param binder
      */
     @InitBinder
+    @BaseMethodLog
     public void initBinder(WebDataBinder binder){
         //由表单到JavaBean赋值过程中哪一个值不进行赋值
         binder.setDisallowedFields("dou");
@@ -259,6 +263,14 @@ public class BaseController {
     private String initBinder(ModelMap map, String baseUserModel, BaseUserModel baseUserModel2, Long aaa) {
         log.info("initBinder...");
         map.put("initBinderStr", baseUserModel);
+        return "index";
+    }
+
+    @RequestMapping("/aop")
+    @ResponseBody
+    @BaseMethodLog
+    public String aop() {
+        log.info("initBinder...");
         return "index";
     }
 }

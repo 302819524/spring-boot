@@ -18,7 +18,7 @@ import java.util.Map;
 
 @Service("baseService")
 //自己写的日志注解，整个类的方法都应用
-@BaseTypeLog
+//@BaseTypeLog
 public class BaseServiceImpl implements BaseService{
     private static final Logger log = LoggerFactory.getLogger(BaseServiceImpl.class);
 
@@ -67,7 +67,7 @@ public class BaseServiceImpl implements BaseService{
         this.aspectLogArgs2(baseUser, i);
     }
     @Override
-//    @BaseMethodLog
+    @BaseMethodLog
     public void aspectLogArgs(BaseUser baseUser, int i) {
     }
 //    @BaseMethodLog

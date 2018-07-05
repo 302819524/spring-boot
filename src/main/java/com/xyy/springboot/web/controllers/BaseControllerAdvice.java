@@ -1,6 +1,7 @@
 package com.xyy.springboot.web.controllers;
 
 import com.xyy.springboot.configuration.BaseCustomStringEditor;
+import com.xyy.springboot.configuration.BaseMethodLog;
 import com.xyy.springboot.configuration.BaseTypeLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

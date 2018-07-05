@@ -7,10 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 /**
  * 多线程controller
@@ -58,5 +55,40 @@ public class BaseThreadController {
             log.error(e.toString());
         }
         return "success:callable";
+    }
+
+    @RequestMapping("/futureTask")
+    @ResponseBody
+    private String futureTask() throws ExecutionException, InterruptedException {
+        log.info("futureTask...");
+        FutureTask<String> stringFutureTask = new FutureTask<>(new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+//                Thread.sleep(5000);
+                return "BaseCallable...";
+            }
+        });
+        Future<?> submit = executorService.submit(stringFutureTask);
+        String result = (String)submit.get();
+        log.info("线程执行结果1：" + result);//线程执行结果1：null
+        result = stringFutureTask.get();
+        log.info("线程执行结果2：" + result);//线程执行结果2：BaseCallable...
+        executorService.execute(stringFutureTask);
+        result = stringFutureTask.get();
+        log.info("线程执行结果3：" + result);//线程执行结果3：BaseCallable...
+        return "success:callable";
+    }
+
+    @RequestMapping("/asyncRequest")
+    @ResponseBody
+    private Callable<String> asyncRequest() throws ExecutionException, InterruptedException {
+        log.info("asyncRequest...");
+        return new Callable<String>() {
+            public String call() throws Exception {
+                log.info("asyncRequest...#call");
+                Thread.sleep(5000);
+                return "someView";
+            }
+        };
     }
 }

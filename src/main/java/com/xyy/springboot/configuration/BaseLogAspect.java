@@ -42,9 +42,9 @@ public class BaseLogAspect {
         reference pointcut：表示引用其他命名切入点，只有@ApectJ风格支持，Schema风格不支持。
      */
 //    只能注释在方法上
-//    @Pointcut("@annotation(com.xyy.springboot.configuration.BaseMethodLog)")
+    @Pointcut("@annotation(com.xyy.springboot.configuration.BaseMethodLog)")
 //    注释在类上，使方法都应用
-    @Pointcut("@within(com.xyy.springboot.configuration.BaseTypeLog)")
+//    @Pointcut("@within(com.xyy.springboot.configuration.BaseTypeLog)")
     public void pointcut(){}
 
     @Before("pointcut()")
