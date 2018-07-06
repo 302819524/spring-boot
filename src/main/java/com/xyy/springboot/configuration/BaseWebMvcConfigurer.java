@@ -21,4 +21,17 @@ public class BaseWebMvcConfigurer implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new BaseHandlerInterceptor()).addPathPatterns("/baseHandlerInterceptor");
     }
+
+    /**
+     * 解决跨域问题
+     * @param registry
+     */
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowCredentials(true)
+                .allowedHeaders("*")
+                .allowedMethods("*")
+                .allowedOrigins("*");
+    }
 }
