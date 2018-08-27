@@ -18,7 +18,7 @@ public class GetPrivate {
 
 	private static final String APP_ID = "201805180001614951";
 	private static final String SECURITY_KEY = "liHWdmsoIbVgra5qMZeu";
-
+	private static int all = 0;
 	public static void main(String[] args) throws IOException {
 		List<List<String>> list = new ArrayList<List<String>>();
 		File file = new File("D:/111.txt");
@@ -36,16 +36,17 @@ public class GetPrivate {
 	        reader = new BufferedReader(new FileReader(file));
 	        while ((tempString = reader.readLine()) != null) {
 	        	//常用
-//	        	String usefull = getUseFull(tempString); //��ȡԭ�����    �ֶμ�ע��
-//	        	listBefore.add(usefull);
+	        	String usefull = getUseFull(tempString); //��ȡԭ�����    �ֶμ�ע��
+				if (!usefull.equals("-----"))
+	        		listBefore.add(usefull);
 				//获取单词
-				String[] list = tempString.split("[^a-zA-Z]+");
-				List<String> listLowerCase = new ArrayList<String>();
-				for (int i=0; i<list.length;i++){
-					String str = list[i].toLowerCase();
-					listLowerCase.add(str);
-				}
-				listBefore.addAll(listLowerCase);
+//				String[] list = tempString.split("[^a-zA-Z]+");
+//				List<String> listLowerCase = new ArrayList<String>();
+//				for (int i=0; i<list.length;i++){
+//					String str = list[i].toLowerCase();
+//					listLowerCase.add(str);
+//				}
+//				listBefore.addAll(listLowerCase);
 	        }
 	    } catch (FileNotFoundException e) {
 	        e.printStackTrace();
@@ -65,13 +66,18 @@ public class GetPrivate {
 		return listAll;
 	}
 	private static String getUseFull(String before) {
-		String[] list = before.split("\\s{2,}|\t| ");
+		String[] list = before.split(">>");
+//		String[] list = before.split("\\s{2,}|\t| ");
 //		String lower = getAfter(list[0]);
-//		String usefull = list[0].trim()+"&"+list[1].trim()+"&"+list[2].trim();
+		String usefull = "";
+		if (list.length == 2) {
+			usefull = list[0].substring(list[0].length() - 1, list[0].length()) + "&" + list[1].trim();
+			System.out.println(usefull);
+			return usefull;
+		}
+		return "-----";
 //		String usefull = list[0].trim()+"&"+list[1].trim();
-		String usefull = list[0].trim();
-		System.out.println(usefull);
-		return usefull;
+//		String usefull = list[0].trim();
 	}
 	/**获取驼峰字段
 	 * @param usefull
@@ -132,7 +138,8 @@ public class GetPrivate {
 //			getDate13(listBefore,in);
 //			getDate14(listBefore,in);
 //			getWordsBySum(listBefore,in);
-			getWordsByWord(listBefore,in);
+//			getWordsByWord(listBefore,in);
+			getDate15(listBefore,in);
 		}catch(IOException e){
 			e.printStackTrace();
 		}finally{
@@ -413,5 +420,26 @@ public class GetPrivate {
 			start = end;
 		}
 		return buffer.toString();
+	}
+
+	private static void getDate15(List<String> listBefore, BufferedWriter in) throws IOException {
+		in.write("------------------------------------------------------------------------------");
+		in.newLine();
+		for (int i=0;i<listBefore.size();i++) {
+			String[] str = listBefore.get(i).split("&");
+//			str[0] = getAfter2(str[0]);
+//			model.setId(equipEntry.getId());
+//			in.write("#"+str[0]+"||");
+//			if (Integer.valueOf(str[1]) > 400){
+				if (str[0].equals("7")){
+					all += Integer.valueOf(str[1]);
+				}
+			in.write(str[0]+":"+str[1]+":"+all);
+			in.newLine();
+//			}
+//			in.write(str[0]+",");
+//			in.write("#"+str[0]+",");
+//			in.write(str[0]+",");
+		}
 	}
 }
