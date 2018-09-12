@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.concurrent.*;
+import java.util.concurrent.locks.StampedLock;
 
 /**
  * 多线程controller
@@ -17,6 +18,7 @@ import java.util.concurrent.*;
 @Controller
 public class BaseThreadController {
     private static Logger log = LoggerFactory.getLogger(BaseThreadController.class);
+    private StampedLock lock = new StampedLock();
     @Autowired
     private ExecutorService executorService;
 
@@ -84,11 +86,21 @@ public class BaseThreadController {
     private Callable<String> asyncRequest() throws ExecutionException, InterruptedException {
         log.info("asyncRequest...");
         return new Callable<String>() {
+            @Override
             public String call() throws Exception {
                 log.info("asyncRequest...#call");
                 Thread.sleep(5000);
                 return "someView";
             }
         };
+    }
+
+    @RequestMapping("/stampedLock")
+    @ResponseBody
+    private Callable<String> stampedLockTest() throws ExecutionException, InterruptedException {
+        log.info("asyncRequest...");
+        long stamp = lock.writeLock();
+        lock.unlockWrite(stamp);
+        return null;
     }
 }

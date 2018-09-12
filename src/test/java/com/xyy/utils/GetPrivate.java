@@ -69,13 +69,13 @@ public class GetPrivate {
 		String[] list = before.split(">>");
 //		String[] list = before.split("\\s{2,}|\t| ");
 //		String lower = getAfter(list[0]);
-		String usefull = "";
-		if (list.length == 2) {
-			usefull = list[0].substring(list[0].length() - 1, list[0].length()) + "&" + list[1].trim();
-			System.out.println(usefull);
+		String usefull = list[0];
+//		if (list.length == 2) {
+//			usefull = list[0].substring(list[0].length() - 1, list[0].length()) + "&" + list[1].trim();
+//			System.out.println(usefull);
 			return usefull;
-		}
-		return "-----";
+//		}
+//		return "-----";
 //		String usefull = list[0].trim()+"&"+list[1].trim();
 //		String usefull = list[0].trim();
 	}
@@ -139,7 +139,8 @@ public class GetPrivate {
 //			getDate14(listBefore,in);
 //			getWordsBySum(listBefore,in);
 //			getWordsByWord(listBefore,in);
-			getDate15(listBefore,in);
+//			getDate15(listBefore,in);
+			getDate16(listBefore,in);
 		}catch(IOException e){
 			e.printStackTrace();
 		}finally{
@@ -435,6 +436,31 @@ public class GetPrivate {
 					all += Integer.valueOf(str[1]);
 				}
 			in.write(str[0]+":"+str[1]+":"+all);
+			in.newLine();
+//			}
+//			in.write(str[0]+",");
+//			in.write("#"+str[0]+",");
+//			in.write(str[0]+",");
+		}
+	}
+	private static void getDate16(List<String> listBefore, BufferedWriter in) throws IOException {
+		in.write("------------------------------------------------------------------------------");
+		in.newLine();
+		for (int i=0;i<listBefore.size();i++) {
+			String[] str = listBefore.get(i).split("&");
+//			str[0] = getAfter2(str[0]);
+//			model.setId(equipEntry.getId());
+//			in.write("#"+str[0]+"||");
+//			if (Integer.valueOf(str[1]) > 400){
+//			if (str[0].equals("7")){
+//				all += Integer.valueOf(str[1]);
+//			}
+			int length = str[0].length();
+			while(length<10){
+				str[0] += "0";
+				length = str[0].length();
+			}
+			in.write(str[0]);
 			in.newLine();
 //			}
 //			in.write(str[0]+",");
