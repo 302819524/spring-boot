@@ -18,6 +18,9 @@ public class BaseLogAspect {
     private static final Logger log = LoggerFactory.getLogger(BaseLogAspect.class);
 
     /**
+     *
+     *  多个组合  且（&&）、或（||）、非（！）来组合切入点表达式。
+     *     例：@within(org.springframework.stereotype.Controller) || @within(org.springframework.web.bind.annotation.RestController)
      *  execution：用于匹配方法执行的连接点；
      *      *：匹配任何数量字符；
             ..：匹配任何数量字符的重复，如在类型模式中匹配任何数量子包；而在方法参数模式中匹配任何数量参数。

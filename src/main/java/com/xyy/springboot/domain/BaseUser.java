@@ -1,12 +1,9 @@
 package com.xyy.springboot.domain;
 
-import netscape.security.PrivilegeTable;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.security.PrivateKey;
 
 @Entity
 @Table(name = "base_user")

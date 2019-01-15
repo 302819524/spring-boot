@@ -140,7 +140,8 @@ public class GetPrivate {
 //			getWordsBySum(listBefore,in);
 //			getWordsByWord(listBefore,in);
 //			getDate15(listBefore,in);
-			getDate16(listBefore,in);
+//			getDate16(listBefore,in);
+			getDate17(listBefore,in);
 		}catch(IOException e){
 			e.printStackTrace();
 		}finally{
@@ -455,13 +456,38 @@ public class GetPrivate {
 //			if (str[0].equals("7")){
 //				all += Integer.valueOf(str[1]);
 //			}
-			int length = str[0].length();
-			while(length<10){
-				str[0] += "0";
-				length = str[0].length();
-			}
-			in.write(str[0]);
+//			int length = str[0].length();
+//			while(length>10){
+//				str[0] += "0";
+//				length = str[0].length();
+//			}
+			in.write(str[0].substring(0,2));
 			in.newLine();
+//			}
+//			in.write(str[0]+",");
+//			in.write("#"+str[0]+",");
+//			in.write(str[0]+",");
+		}
+	}
+	private static void getDate17(List<String> listBefore, BufferedWriter in) throws IOException {
+		in.write("------------------------------------------------------------------------------");
+		in.newLine();
+		for (int i=0;i<listBefore.size();i++) {
+			String[] str = listBefore.get(i).split("&");
+//			str[0] = getAfter2(str[0]);
+//			model.setId(equipEntry.getId());
+//			in.write("#"+str[0]+"||");
+//			if (Integer.valueOf(str[1]) > 400){
+//			if (str[0].equals("7")){
+//				all += Integer.valueOf(str[1]);
+//			}
+//			int length = str[0].length();
+//			while(length>10){
+//				str[0] += "0";
+//				length = str[0].length();
+//			}
+			in.write("'" + str[0].trim() +"', ");
+//			in.newLine();
 //			}
 //			in.write(str[0]+",");
 //			in.write("#"+str[0]+",");

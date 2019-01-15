@@ -1,17 +1,8 @@
 package com.xyy.springboot.model;
 
-import netscape.security.PrivilegeTable;
-import org.hibernate.validator.constraints.Range;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.NumberFormat;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
-import java.security.PrivateKey;
 import java.time.LocalDate;
 
 public class BaseUserModel extends AbstractPersistable<Long> {

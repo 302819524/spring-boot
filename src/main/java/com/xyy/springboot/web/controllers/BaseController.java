@@ -1,5 +1,6 @@
 package com.xyy.springboot.web.controllers;
 
+import com.alibaba.fastjson.JSONObject;
 import com.xyy.springboot.configuration.BaseCustomStringEditor;
 import com.xyy.springboot.configuration.BaseMethodLog;
 import com.xyy.springboot.domain.BaseUser;
@@ -13,8 +14,10 @@ import javafx.scene.input.DataFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
+import org.springframework.cglib.core.Local;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -25,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.beans.PropertyEditorSupport;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -253,7 +257,13 @@ public class BaseController {
     public void initBinderString(WebDataBinder binder){
         //由表单到JavaBean赋值过程中哪一个值不进行赋值
         log.info("initBinderString...");
-        binder.registerCustomEditor(String.class, new BaseCustomStringEditor());
+//        binder.registerCustomEditor(String.class, new BaseCustomStringEditor());
+        binder.registerCustomEditor(LocalDate.class,new PropertyEditorSupport(){
+            @Override
+            public void setAsText(String text) throws IllegalArgumentException {
+                setValue(LocalDate.parse(text));
+            }
+        });
 //        解析的是对象中的属性名称是initBinder的
 //        binder.registerCustomEditor(String.class,"initBinder", new BaseCustomStringEditor());
     }
