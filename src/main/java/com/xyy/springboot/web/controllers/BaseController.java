@@ -92,7 +92,7 @@ public class BaseController {
     @ResponseBody
     public String getBaseUser(@RequestParam Long id){
         BaseUser baseUser = baseService.getBaseUser(id);
-        return "";
+        return baseUser.toString();
     }
 
     /**
